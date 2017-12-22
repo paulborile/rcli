@@ -1,7 +1,7 @@
 # rcli
 readline based library for writing cli applications in C
 
-Just set the list of commands and develop a function for each command : all the rest is done by rcli.
+Just set the list of commands and develop a function for each command : all the rest is done by rcli, autocompletion included
 Uses GNU readline and GNU history libraries
 Example code :
 
@@ -40,4 +40,4 @@ int main(int argc, char **argv)
 
 ```
 
-Still heavily in progress ...
+Still heavily in progress ... working on parameters and possibly adding vararg
