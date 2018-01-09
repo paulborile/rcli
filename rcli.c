@@ -42,7 +42,7 @@ static rcli_h *g = NULL;
 
 static char **_rcli_cmd_name_completion(const char *text, int start, int end);
 static char *_rcli_cmd_name_generator(const char *text, int state);
-
+char *qtok(char *str, char **next);
 
 // init the rcli
 rcli_h *rcli_create(rcli_cmds_t *c, char *cli_prompt)
@@ -83,6 +83,9 @@ void rcli_run(rcli_h *h)
     char *input;
     int stay_in_loop = 1;
     int ret, which;
+    char cmd[32];
+    char arg1[4096];
+    char *p;
 
     while (stay_in_loop)
     {
@@ -96,16 +99,20 @@ void rcli_run(rcli_h *h)
 
         // parse arguments
 
+        p = input;
+        strcpy(cmd, qtok(p, &p));
+        strcpy(arg1, qtok(p, &p));
+
         // find command index in cmds
 
-        if (( which = _rcli_search(h, input)) == -1 )
+        if (( which = _rcli_search(h, cmd)) == -1 )
         {
-            printf("Unknown command \"%s\"\n", input);
+            printf("Unknown command \"%s\"\n", cmd);
             free(input);
             continue;
         }
 
-        ret = h->cmds[which].execute(input, NULL);
+        ret = h->cmds[which].execute(cmd, arg1);
 
         // Add input to history.
         add_history(input);
